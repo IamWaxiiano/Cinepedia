@@ -36,10 +36,10 @@ class Usuario:
         return usuarios
     
     @classmethod
-    def login(cls,data):
+    def login(cls,datos):
         query= "SELECT * from usuarios where email=%(email)s"
-        data = {"email": data["email"]}
+        data = {"email": datos["email"]}
         usuario= Conexion('cinepedia').query_db(query, data)
         hashed_password=usuario[0]["password"].encode('utf-8')
-        if bcrypt.check_password_hash(data["password"].encode('utf-8'),hashed_password):
+        if bcrypt.check_password_hash(datos["password"].encode('utf-8'),hashed_password):
             return usuario[0] if usuario else None
