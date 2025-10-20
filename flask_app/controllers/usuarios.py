@@ -7,6 +7,38 @@ from flask import Blueprint
 
 usuarios_bp = Blueprint('usuarios',__name__)
 
+@usuarios_bp.route("/register", methods="POST")
+def register():
+    data={
+        "nombre":request.form["nombre"],
+        "apellido": request.form["apellido"],
+        "email": request.form["email_1"],
+        "password": request.form["contra_1"]
+    }
 
+    if Usuario.ValidarEmail(data["email"]) is None:
+        Usuario.save(data)
+        listado=Pelicula.get_all
+        usuario=Usuario.ValidarEmail(data["email"])
+        return render_template('cine.html',usuario = usuario,lista=listado)
+    else: 
+        flash("El email ya esta registrado")
+        redirect (request.referrer)
 
+@usuarios_bp.route("/login", methods="POST")
+def login():
+    datos={
+        "email": request.form["email_2"],
+        "password": request.form["contra_2"]
+    }
+    usuario=Usuario.login(datos)
+    if usuario is None:
+        render_template("error.html")
+    else:
+        session["nombre"]=usuario["nombre"]
+        session["apellido"]=usuario["apellido"]
+        session["password"]=datos["password"]
+        session["id"]=usuario["id"]
+        listado=Pelicula.get_all
+        return render_template("cine.html", usuario=usuario, listado=listado)
 
