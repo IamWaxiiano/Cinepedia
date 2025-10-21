@@ -3,7 +3,7 @@ class Conexion: #Clase que permite generar instancia de conexión con BD
    def __init__(self, db):
        connection = pymysql.connect(host = 'localhost',
                                    user = 'root', # Cambia el usuario y contraseña
-                                   password = 'root',
+                                   password = '',
                                    db = db,
                                    charset = 'utf8mb4',
                                    cursorclass = pymysql.cursors.DictCursor,

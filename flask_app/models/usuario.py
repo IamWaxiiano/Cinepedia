@@ -41,5 +41,5 @@ class Usuario:
         data = {"email": datos["email"]}
         usuario= Conexion('cinepedia').query_db(query, data)
         hashed_password=usuario[0]["password"].encode('utf-8')
-        if bcrypt.check_password_hash(datos["password"].encode('utf-8'),hashed_password):
+        if bcrypt.checkpw(datos["password"].encode('utf-8'),hashed_password):
             return usuario[0] if usuario else None

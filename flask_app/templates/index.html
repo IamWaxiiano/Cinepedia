@@ -13,6 +13,16 @@
 <body>
     <div class="container">
         <div class="row">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                <li style="color: red;">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+            {% block body %}{% endblock %}
             <div class="col-md-4">
                 <h2>Registrarse</h2>
                 <form action="/register" method="post" id="formulario_1">
@@ -56,18 +66,18 @@
             </div>
         </div>
     </div>
-    <script> 
-        document.getElementById("formulario_1").addEventListener("input", function(){
+    <script>
+        document.getElementById("formulario_1").addEventListener("input", function () {
             let pass1 = document.getElementById("contra_1").value
             let pass2 = document.getElementById("confirmar").value
 
-            if (pass1 != pass2){
+            if (pass1 != pass2) {
                 event.preventDefault
-                document.getElementById("error").style.display="block"
-                document.getElementById("registrar").disabled= True
+                document.getElementById("error").style.display = "block"
+                document.getElementById("registrar").disabled = True
             } else {
-                document.getElementById("error").style.display="none"
-                document.getElementById("registrar").disabled= False
+                document.getElementById("error").style.display = "none"
+                document.getElementById("registrar").disabled = False
             }
         })
     </script>

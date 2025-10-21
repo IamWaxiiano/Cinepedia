@@ -7,7 +7,7 @@ from flask import Blueprint
 
 usuarios_bp = Blueprint('usuarios',__name__)
 
-@usuarios_bp.route("/register", methods="POST")
+@usuarios_bp.route("/register", methods=["POST"])
 def register():
     data={
         "nombre":request.form["nombre"],
@@ -23,9 +23,9 @@ def register():
         return render_template('cine.html',usuario = usuario,lista=listado)
     else: 
         flash("El email ya esta registrado")
-        redirect (request.referrer)
+        return redirect(request.referrer)
 
-@usuarios_bp.route("/login", methods="POST")
+@usuarios_bp.route("/login", methods=["POST"])
 def login():
     datos={
         "email": request.form["email_2"],
