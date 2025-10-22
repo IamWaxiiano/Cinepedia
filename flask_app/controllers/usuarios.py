@@ -18,9 +18,12 @@ def register():
 
     if Usuario.ValidarEmail(data["email"]) is None:
         Usuario.save(data)
-        listado=Pelicula.get_all
         usuario=Usuario.ValidarEmail(data["email"])
-        return render_template('cine.html',usuario = usuario,lista=listado)
+        session["id"]=usuario["id"]
+        session["nombre"]=usuario["nombre"]
+        session["apellido"]=usuario["apellido"]
+        session["password"]=usuario["password"]
+        return redirect('/cine')
     else: 
         flash("El email ya esta registrado")
         return redirect(request.referrer)
@@ -39,6 +42,21 @@ def login():
         session["apellido"]=usuario["apellido"]
         session["password"]=datos["password"]
         session["id"]=usuario["id"]
-        listado=Pelicula.get_all
-        return render_template("cine.html", usuario=usuario, listado=listado)
+        return redirect("/cine")
+    
+@usuarios_bp.route("/cine")
+def cine():
+    if "id" not in session:
+        flash("Debes iniciar sesión primero")
+        return redirect("/")
+    else:
+        listado=Pelicula.get_all()
+        return render_template('cine.html',lista=listado)
+
+@usuarios_bp.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+
 
